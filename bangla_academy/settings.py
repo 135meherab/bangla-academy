@@ -48,11 +48,8 @@ INSTALLED_APPS = [
     'categories',
     'wallet',
     'borrow',
-    "crispy_forms",
-    "crispy_bootstrap5",
 ]
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -114,7 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 LOGIN_URL = 'login'
-
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['https://bangla-academy.onrender.com','https://*.127.0.0.1']
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
