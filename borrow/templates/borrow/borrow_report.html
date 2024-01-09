@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{% block title %}Borrowed History{% endblock title %}
+{% block content %}
+{%if messages%}
+<script>
+  document.addEventListener("DOMContentLoaded",function(){
+    {% for msg in messages%}
+      Swal.fire({
+        icon: '{{ msg.tags }}',
+        title: '{{ msg.tags|title }}',
+        text: '{{ msg}}',
+        showConfirmButton: false,
+        timer: 3000
+      })
+    {% endfor%}
+  })
+</script>
+{%endif%}
+
+<div class="my-10 py-3 px-4 bg-white rounded-xl shadow-md">
+  <h1 class="font-bold text-3xl text-center pb-5 pt-2">Borrowed History</h1>
+  <hr />
+  
+  <table
+    class="table-auto mx-auto w-full px-5 rounded-xl mt-8 border dark:border-neutral-500"
+  >
+    <thead class="bg-purple-900 text-white text-left">
+      <tr
+        class="bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold"
+      >
+        <th class="px-4 py-2">Borrowed Date</th>
+        <th class="px-4 py-2">Book Name</th>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for history in object_list %}
+      <tr class="border-b dark:border-neutral-500">
+        <td class="px-4 py-2">
+          {{ history.date}}
+        </td>
+        <td class="px-4 py-2">
+          {{ history.book.title}}
+        </td>
+        <td class="px-4 py-2">
+          {% if history.is_retuened %}
+          <p class = 'text-green-700 bg-green-100' >returned</p>
+          {% else %}
+          <p class = 'text-red-700 bg-red-100 text-center' >Borrowed</p>
+          {%endif%}
+        </td>
+        <td class="px-4 py-2">
+          {% if history.is_retuened == False %}
+          <a class="bg-blue-500 hover:bg-blue-700 focus:ring focus:ring-blue-200 text-white font-bold py-1 px-4 rounded" href="{% url 'return_book' history.book.id %}">Return book</a>
+          {%endif%}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

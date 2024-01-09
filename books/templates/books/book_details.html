@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Book Details
+{% endblock title %}
+
+{% block content %}
+{%if messages%}
+<script>
+  document.addEventListener("DOMContentLoaded",function(){
+    {% for msg in messages%}
+      Swal.fire({
+        icon: '{{ msg.tags }}',
+        title: '{{ msg.tags|title }}',
+        text: '{{ msg}}',
+        showConfirmButton: false,
+        timer: 3000
+      })
+    {% endfor%}
+  })
+</script>
+{%endif%}
+<div class="flex">
+    <div class="w-1/2">
+        <img class="w-3/5 object-cover" src="{{books.imange.url}}" alt="Card Image">
+    </div>
+    <div class="p-4 w-1/2">
+        <h2 class="text-xl font-semibold mb-2">{{books.title}}</h2>
+        <p class="text-gray-600 mb-4">{{books.description}}</p>
+        <p class="text-gray-700 font-bold">Borrow Price: {{books.borrowing_price}} Tk</p>
+        <br>
+        {%if user.is_authenticated%}
+        <a href="{% url 'Borrow' books.id%}" class="bg-blue-500 hover:bg-blue-700 focus:ring focus:ring-blue-200 text-white font-bold py-2 px-4 rounded">Borrow Now</a> 
+        <br>
+        <br>
+        <form method="post" action="">
+          {% csrf_token %}
+          {{review_form.label}}
+          {{review_form}}
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+            Submit Review
+          </button>
+        </form>
+        
+        {%endif%}
+    </div>
+</div>
+<div class='w-1/2 m-auto'>
+  
+</div>
+{% endblock content %}

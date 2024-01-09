@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+Index
+{% endblock title %}
+
+{% block content %}
+{%if messages%}
+<script>
+  document.addEventListener("DOMContentLoaded",function(){
+    {% for msg in messages%}
+      Swal.fire({
+        icon: '{{ msg.tags }}',
+        title: '{{ msg.tags|title }}',
+        text: '{{ msg}}',
+        showConfirmButton: false,
+        timer: 3000
+      })
+    {% endfor%}
+  })
+</script>
+{%endif%}
+<div class="m-5">
+    <div class="m-5">
+        <a class="bg-blue-500 hover:bg-blue-700 focus:ring focus:ring-blue-200 text-white font-bold py-2 px-4 rounded" href="{% url 'index'%}">All</a>
+        {%for category in all_categories%}
+        <a class="bg-blue-500 hover:bg-blue-700 focus:ring focus:ring-blue-200 text-white font-bold py-2 px-4 rounded" href="{% url 'category_wise_books' category.slug%}">{{category.name}}</a>
+        {%endfor%}
+    </div>
+    <div class="flex flex-wrap justify-center">
+        {%for book in all_books%}
+        <div class="max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md w-64">
+            <img class="w-full h-48 object-cover" src="{{book.imange.url}}" alt="Card Image">
+            <div class="p-4 h-40">
+                <h2 class="text-xl font-semibold mb-2"><a href="{% url 'BookDetails' book.id%}">{{book.title}}</a></h2>
+                <p class="text-gray-600 mb-4">{{book.description |truncatechars:25}}</p>
+                <div class="flex justify-between items-center">
+                    <p class="text-gray-700 font-bold">Borrow Price: {{book.borrowing_price}} Tk</p>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{% endblock content %}
